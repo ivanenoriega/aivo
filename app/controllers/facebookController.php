@@ -4,9 +4,8 @@ use Facebook;
 
 class FacebookController
 {
-	const APP_ID_ENV_NAME = 118597492105224;
-	const APP_SECRET_ENV_NAME = '92f2bb3cba3c7995e2a0e38d25c3966c';
-	const ACCESSS_TOKEN = '118597492105224|wYxHDJRs0FZ7iA9pHueRv9HMjjc';
+	const APP_ID_ENV_NAME;
+	const APP_SECRET_ENV_NAME;
 
 	// Facebook SDK class instance
 	private $fb;
@@ -16,15 +15,20 @@ class FacebookController
 			'app_id' => self::APP_ID_ENV_NAME,
 			'app_secret' => self::APP_SECRET_ENV_NAME
 		]);
+		$this->setAccessToken();
 	}
 	
+	/**
+	 * Get Facebook user profile information
+	 * @return HTTP response $response
+	 */
 	public function get($request, $response, $args){
 		$result = array('errors' => '');
 		$statusCode = 400;
 		
 		if(is_numeric($args['id'])){
 			try {
-				$faceResponse = $this->fb->get('/' . $args['id'], self::ACCESSS_TOKEN);
+				$faceResponse = $this->fb->get('/' . $args['id']);
 
 			} catch(\Facebook\Exceptions\FacebookResponseException $e) {
 				$result['errors'][] = 'Graph returned an error: ' . $e->getMessage();
@@ -58,4 +62,13 @@ class FacebookController
 
 		return $response->withStatus($statusCode)->withJson($result);
   	}
+
+    /**
+     * Set Access Token
+     * @return Facebook\Authentication\AccessToken
+     */
+    private function setAccessToken()
+    {
+        $this->fb->setDefaultAccessToken($this->fb->getApp()->getAccessToken());
+    }
 }

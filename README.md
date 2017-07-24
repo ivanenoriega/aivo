@@ -29,7 +29,8 @@ git clone https://github.com/ivanenoriega/aivo.git
 composer install
 ```
 
-- Replace the APP_ID_ENV_NAME and APP_SECRET_ENV_NAME environment variables with your Facebook App Credentials
+- Replace the APP_ID_ENV_NAME and APP_SECRET_ENV_NAME environment variables with your Facebook App Credentials in [app/controllers/facebookController.php](https://github.com/ivanenoriega/aivo/blob/master/app/controllers/facebookController.php)
+
 - Start development server: 
 ```shell
 php -S localhost:8080 -t public public/index.php

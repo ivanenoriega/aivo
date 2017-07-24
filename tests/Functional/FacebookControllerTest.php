@@ -15,10 +15,15 @@ class FacebookControllerTest extends BaseTestCase
 
     public function testGetUserProfileNotFound()
     {
-        $response = $this->runApp('GET', '/profile/facebook/123123123123');
+        $response = $this->runApp('GET', '/profile/facebook/123123213123213213');
 
         // Check the status code
         $this->assertEquals(400, $response->getStatusCode());
+
+        // Check the error message
+        $data = json_decode($response->getBody(), true);
+        $this->assertEquals("Graph returned an error: (#803) Some of the aliases you" . 
+            " requested do not exist: 123123213123213213", $data['errors'][0]);
     }
 
     public function testGetUserProfileIncomplete()
